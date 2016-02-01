@@ -235,14 +235,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         dispatch_async(downloadQueue) {
             do {
                 try NSFileManager.defaultManager().removeItemAtPath(NSBundle.mainBundle().resourcePath! + "/ep/tmp")
-                
-                let cntString = self.getSize()
-                dispatch_sync(dispatch_get_main_queue()) {
-                    self.lblCacheSize.stringValue = cntString
-                }
-                
             } catch _ as NSError {
-                
+            }
+            let cntString = self.getSize()
+            dispatch_sync(dispatch_get_main_queue()) {
+                self.lblCacheSize.stringValue = cntString
             }
         }
     }

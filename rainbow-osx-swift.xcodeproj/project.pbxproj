@@ -483,6 +483,7 @@
 				0B384BF71C5B58AF00608B07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0B384BF81C5B58AF00608B07 /* Build configuration list for PBXNativeTarget "rainbow-osx-swiftTests" */ = {
 			isa = XCConfigurationList;
@@ -491,6 +492,7 @@
 				0B384BFA1C5B58AF00608B07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0B384BFB1C5B58AF00608B07 /* Build configuration list for PBXNativeTarget "rainbow-osx-swiftUITests" */ = {
 			isa = XCConfigurationList;
@@ -499,6 +501,7 @@
 				0B384BFD1C5B58AF00608B07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
