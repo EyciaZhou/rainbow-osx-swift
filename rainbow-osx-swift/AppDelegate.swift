@@ -60,19 +60,43 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         dict.writeToFile(NSBundle.mainBundle().resourcePath! + "/config.plist", atomically: false)
     }
     
-    func download(f: Bool) {
-        let task = NSTask()
+    func show_rainbow_cli_broken() {
         
-        task.launchPath = NSBundle.mainBundle().pathForResource("rainbow-cli", ofType: "")
+        dispatch_async(dispatch_get_main_queue()) {
         
-        if (f) {
-            task.arguments = ["-ang", ang, "-d", d, "-f"]
-        } else {
-            task.arguments = ["-ang", ang, "-d", d]
+            let alert = NSAlert()
+            alert.messageText = "rainbow-cli损坏"
+            alert.addButtonWithTitle("确定")
+        
+            alert.informativeText = "rainbow-cli损坏"
+            alert.beginSheetModalForWindow(self.window, completionHandler: {  (returnCode) -> Void in })
         }
+    }
+    
+    func download(f: Bool) {
+        if let rainbow_cli_path = NSBundle.mainBundle().pathForResource("rainbow-cli", ofType: "") {
+            
+            if !NSFileManager.defaultManager().isExecutableFileAtPath(rainbow_cli_path) {
+                show_rainbow_cli_broken()
+                return
+            }
+            
+            let task = NSTask()
         
-        task.launch()
-        task.waitUntilExit()
+            task.launchPath = rainbow_cli_path
+        
+            if (f) {
+                task.arguments = ["-ang", ang, "-d", d, "-f"]
+            } else {
+                task.arguments = ["-ang", ang, "-d", d]
+            }
+        
+            task.launch()
+            task.waitUntilExit()
+            
+        } else {
+            show_rainbow_cli_broken()
+        }
     }
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
@@ -234,14 +258,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         dispatch_async(downloadQueue) {
             do {
-                try NSFileManager.defaultManager().removeItemAtPath(NSBundle.mainBundle().resourcePath! + "/ep/tmp")
+                try NSFileManager.defaultManager().removeItemAtPath(NSBundle.mainBundle().resourcePath! + "/ep")
             } catch _ as NSError {
             }
             let cntString = self.getSize()
             dispatch_sync(dispatch_get_main_queue()) {
                 self.lblCacheSize.stringValue = cntString
             }
-        }
+            self.download(true)
+        }   
     }
     
     func setWindowVisible(sender: AnyObject){
